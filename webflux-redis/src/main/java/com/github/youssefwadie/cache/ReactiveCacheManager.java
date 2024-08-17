@@ -89,14 +89,13 @@ public class ReactiveCacheManager {
      */
     @SuppressWarnings("unchecked")
     public <T extends Serializable> Flux<T> getCachedFluxOrElseGet(String cacheName, Object key, Supplier<Flux<T>> fluxSupplier) {
-
         Assert.hasText(cacheName, "Cache name must not be empty");
         Assert.notNull(key, "Key must not be null");
         Assert.notNull(fluxSupplier, "Flux supplier must not be null");
 
         Cache cache = cacheManager.getCache(cacheName);
         if (cache == null) {
-            LOG.warn("Cache {} not found", cacheName);
+            LOG.trace("Cache {} not found", cacheName);
             return fluxSupplier.get();
         }
 
@@ -124,7 +123,7 @@ public class ReactiveCacheManager {
         Assert.notNull(monoSupplier, "Mono supplier must not be null");
         Cache cache = cacheManager.getCache(cacheName);
         if (cache == null) {
-            LOG.warn("Cache {} not found", cacheName);
+            LOG.trace("Cache {} not found", cacheName);
             return monoSupplier.get();
         }
 
